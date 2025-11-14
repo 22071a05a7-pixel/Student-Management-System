@@ -19,3 +19,16 @@ class StudentAPITests(TestCase):
         data = {"name": "Unit Test", "email": "unit@example.com", "course": "ECE"}
         response = self.client.post("/api/students/create/", data)
         self.assertEqual(response.status_code, 200)
+
+class StudentTests(TestCase):
+    def test_create_student(self):
+        student = Student.objects.create(
+            name="Test Student",
+            email="test@example.com",
+            course="CS"
+        )
+        self.assertEqual(student.name, "Test Student")
+    
+    def test_student_list_api(self):
+        response = self.client.get('/api/students/')
+        self.assertEqual(response.status_code, 200)

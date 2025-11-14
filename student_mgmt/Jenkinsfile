@@ -3,25 +3,18 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/YOURNAME/student_mgmt'
+                git 'https://github.com/22071a05a7-pixel/Student-Management-System.git'
             }
         }
 
-        stage('Install') {
+        stage('Build') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'docker build -t student-app .'
             }
         }
-
-        stage('Tests') {
+        stage('Test') {
             steps {
-                sh 'pytest'
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                sh 'docker build -t django-students .'
+                sh 'python manage.py test'
             }
         }
     }

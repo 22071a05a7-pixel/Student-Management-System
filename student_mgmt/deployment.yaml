@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django-students
+  name: student-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: django
+      app: student-app
   template:
     metadata:
       labels:
-        app: django
+        app: student-app
     spec:
       containers:
-        - name: django-app
-          image: yourdockername/django-students
+        - name: student-app
+          image: srihas0/student-app:latest
           ports:
             - containerPort: 8000
