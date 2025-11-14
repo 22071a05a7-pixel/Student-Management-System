@@ -1,0 +1,20 @@
+[
+    {
+        "model": "students.student",
+        "pk": 1,
+        "fields": {
+            "name": "Alice Johnson",
+            "email": "alice@example.com",
+            "course": "Computer Science"
+        }
+    },
+    {
+        "model": "students.student",
+        "pk": 2,
+        "fields": {
+            "name": "Bob Smith",
+            "email": "bob@example.com",
+            "course": "Electronics"
+        }
+    }
+]

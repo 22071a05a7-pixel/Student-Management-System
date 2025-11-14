@@ -1,0 +1,219 @@
+{% extends "students/base.html" %}
+
+{% block title %}Students List - EduManage{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">
+                    <i class="fas fa-users text-primary"></i> Students Directory
+                </h1>
+                <p class="text-muted">Manage and view all student records</p>
+            </div>
+            <div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Student
+                </button>
+                <button class="btn btn-outline-secondary">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">{{ students|length }}</h4>
+                                <p class="card-text">Total Students</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-users fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">4</h4>
+                                <p class="card-text">Active Courses</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-book fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">95%</h4>
+                                <p class="card-text">Attendance</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-chart-line fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">A+</h4>
+                                <p class="card-text">Average Grade</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-star fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Table -->
+        <div class="card">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-list"></i> All Students
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if students %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fas fa-id-card"></i> ID</th>
+                                <th><i class="fas fa-user"></i> Student Name</th>
+                                <th><i class="fas fa-envelope"></i> Email</th>
+                                <th><i class="fas fa-book"></i> Course</th>
+                                <th><i class="fas fa-cogs"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td>
+                                    <span class="badge bg-secondary">#{{ student.id }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" 
+                                             style="width: 40px; height: 40px;">
+                                            <span class="text-white fw-bold">
+                                                {{ student.name|slice:":1"|upper }}
+                                            </span>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="mb-0">{{ student.name }}</h6>
+                                            <small class="text-muted">Student</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ student.email }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if student.course == 'Computer Science' %}bg-success
+                                        {% elif student.course == 'Electronics' %}bg-primary
+                                        {% elif student.course == 'Mechanical' %}bg-warning
+                                        {% else %}bg-info{% endif %}">
+                                        {{ student.course }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No Students Found</h4>
+                    <p class="text-muted">Add your first student to get started</p>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Additional Info Section -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">
+                            <i class="fas fa-info-circle"></i> Quick Stats
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <h5 class="text-primary">CS</h5>
+                                <small class="text-muted">Computer Science</small>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="text-success">ECE</h5>
+                                <small class="text-muted">Electronics</small>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="text-warning">MECH</h5>
+                                <small class="text-muted">Mechanical</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">
+                            <i class="fas fa-clock"></i> Recent Activity
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-user-plus text-success me-2"></i>
+                            <small>New student registered - 2 hours ago</small>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-edit text-primary me-2"></i>
+                            <small>Student record updated - 5 hours ago</small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-download text-info me-2"></i>
+                            <small>Report generated - 1 day ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
