@@ -1,0 +1,18 @@
+name: Test Action - Simple Hello World
+
+on:
+    push:
+        branches: [main, master]
+
+jobs:
+    hello:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Say Hello
+              run: echo "🎉 GitHub Actions is working!"
+
+            - name: Show Files
+              run: ls -la
+
+            - name: Show Python Version
+              run: python --version
