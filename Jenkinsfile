@@ -31,24 +31,19 @@ pipeline {
             }
         }
         
-        // stage('Install Dependencies') {
-        //     steps {
-        //         echo '📦 Installing dependencies...'
-        //         sh 'pip install -r requirements.txt'
-        //     }
-        // }
-        
-        stage('Run Tests') {
-            steps {
-                echo '🧪 Running tests...'
-                sh 'python manage.py test'
-            }
-        }
-        
         stage('Build Docker Image') {
             steps {
                 echo '🐳 Building Docker image...'
-                sh 'docker build -t student-app .'
+                bat 'docker build -t student-app .'
+            }
+        }
+        
+        stage('Run Tests in Docker') {
+            steps {
+                echo '🧪 Running tests inside Docker container...'
+                bat '''
+                    docker run --rm student-app python manage.py test
+                '''
             }
         }
     }
