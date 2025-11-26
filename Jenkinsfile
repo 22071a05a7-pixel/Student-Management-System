@@ -27,7 +27,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 echo '📥 Cloning code from GitHub...'
-                git branch: 'main', url: 'https://github.com/YOUR_USERNAME/student-mgmt.git'
+                git branch: 'main', url: 'https://github.com/22071a05a7-pixel/Student-Management-System.git'
             }
         }
         
@@ -38,7 +38,7 @@ pipeline {
             }
         }
         
-        stage('Test Docker Container Startup') {
+        stage('Run Tests in Docker') {
             steps {
                 echo '🚀 Testing if Docker container starts...'
                 bat '''
