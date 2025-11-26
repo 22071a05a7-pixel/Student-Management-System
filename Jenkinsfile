@@ -24,9 +24,9 @@ pipeline {
     agent any
     
     stages {
-        stage('Clone Repository') {
+        stage('Setup') {
             steps {
-                echo '📥 Cloning code from GitHub...'
+                echo '🚀 Starting Jenkins Pipeline...'
                 git branch: 'main', url: 'https://github.com/22071a05a7-pixel/Student-Management-System.git'
             }
         }
@@ -35,32 +35,39 @@ pipeline {
             steps {
                 echo '🐳 Building Docker image...'
                 bat 'docker build -t student-app .'
+                bat 'docker images student-app'
             }
         }
         
-        stage('Run Tests in Docker') {
+        stage('Run Tests') {
             steps {
-                echo '🚀 Testing if Docker container starts...'
-                bat '''
-                    docker run -d --name test-container student-app
-                    timeout /t 5 /nobreak
-                    docker logs test-container
-                    docker stop test-container
-                    docker rm test-container
-                '''
+                echo '🧪 Running test suite...'
+                bat 'docker run --rm student-app python manage.py test --verbosity=2'
+            }
+        }
+        
+        stage('Verify Web App') {
+            steps {
+                echo '🌐 Testing web application startup...'
+                script {
+                    bat 'docker run -d --name web-test student-app'
+                    bat 'timeout /t 10 /nobreak'
+                    bat 'docker logs web-test'
+                    bat 'docker stop web-test'
+                    bat 'docker rm web-test'
+                }
             }
         }
     }
     
     post {
         always {
-            echo '📊 Pipeline completed!'
+            echo '📊 Pipeline execution completed'
         }
         success {
-            echo '🎉 SUCCESS: Docker image built and container started!'
-        }
-        failure {
-            echo '❌ FAILED: Check Docker setup'
+            echo '🎉 SUCCESS: All tests passed!'
+            echo '💡 To run locally: docker run -p 8000:8000 student-app'
+            echo '🌐 Then visit: http://localhost:8000/api/students/page/'
         }
     }
 }
